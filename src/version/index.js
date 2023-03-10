@@ -2,7 +2,7 @@ const Json = require('./json')
 const Git = require('./git')
 const Yaml = require('./yaml')
 const Toml = require('./toml')
-const Pom = require('./pom')
+const Xml = require('./xml')
 
 module.exports = (fileExtension) => {
   switch (fileExtension.toLowerCase()) {
@@ -20,7 +20,7 @@ module.exports = (fileExtension) => {
       return new Git()
 
     case 'xml':
-        return new Pom()
+        return new Xml()
 
     default:
       return null
