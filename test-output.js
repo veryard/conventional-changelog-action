@@ -3,6 +3,7 @@ const assert = require('assert')
 const objectPath = require('object-path')
 const yaml = require('yaml')
 const toml = require('@iarna/toml')
+const { XMLParser } = require("fast-xml-parser");
 
 const actionConfig = yaml.parse(fs.readFileSync('./action.yml', 'utf8'))
 
@@ -39,6 +40,11 @@ FILES.split(',').map((file, index) => {
 
     case 'toml':
       parsedContent = toml.parse(fileContent)
+      break
+
+    case 'xml':
+      const parser = new XMLParser();
+      parsedContent = parser.parse(fileContent);
       break
 
     default:
