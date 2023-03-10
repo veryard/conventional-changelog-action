@@ -13,6 +13,7 @@ module.exports = class Git extends BaseVersioning {
 
       gitSemverTags({ tagPrefix, skipUnstable: !prerelease }, async (err, tags) => {
         if (tags.length > 0) {
+          // should work
           tags.sort((a, b) => {
             const aVersion = a.replace(tagPrefix, '');
             const bVersion = b.replace(tagPrefix, '');
