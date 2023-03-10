@@ -32,7 +32,7 @@ module.exports = class Pom extends BaseVersioning {
     }
 
     // pomObject.project.version = "1.0.0"
-    this.oldVersion = objectPath.get(jsonContent, this.versionPath, null)
+    this.oldVersion = objectPath.get(pomObject, this.versionPath, null)
 
     // Get the new version
     this.newVersion = await bumpVersion(
