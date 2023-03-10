@@ -3,7 +3,7 @@ const objectPath = require('object-path')
 
 const BaseVersioning = require('./base')
 const bumpVersion = require('../helpers/bumpVersion')
-
+const { XMLParser, XMLBuilder } = require("fast-xml-parser");
 module.exports = class Pom extends BaseVersioning {
 
   /**
