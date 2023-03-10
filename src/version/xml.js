@@ -4,7 +4,7 @@ const objectPath = require('object-path')
 const BaseVersioning = require('./base')
 const bumpVersion = require('../helpers/bumpVersion')
 const { XMLParser, XMLBuilder } = require("fast-xml-parser");
-module.exports = class Pom extends BaseVersioning {
+module.exports = class Xml extends BaseVersioning {
 
   /**
    * Bumps the version in the package.json
@@ -17,22 +17,21 @@ module.exports = class Pom extends BaseVersioning {
     const fileContent = this.read()
 
     // Parse the file
-    let pomObject
+    let xmlObject
 
     const parser = new XMLParser();
     try {
-        pomObject = parser.parse(fileContent);
+      xmlObject = parser.parse(fileContent);
     } catch (error) {
-        core.startGroup(`Error when parsing the file '${this.fileLocation}'`)
-        core.info(`File-Content: ${fileContent}`)
-        core.info(error) // should be 'warning' ?
-        core.endGroup()
+      core.startGroup(`Error when parsing the file '${this.fileLocation}'`)
+      core.info(`File-Content: ${fileContent}`)
+      core.info(error) // should be 'warning' ?
+      core.endGroup()
 
-        pomObject = {}
+      xmlObject = {}
     }
 
-    // pomObject.project.version = "1.0.0"
-    this.oldVersion = objectPath.get(pomObject, this.versionPath, null)
+    this.oldVersion = objectPath.get(xmlObject, this.versionPath, null)
 
     // Get the new version
     this.newVersion = await bumpVersion(
@@ -43,17 +42,14 @@ module.exports = class Pom extends BaseVersioning {
     core.info(`Bumped file "${this.fileLocation}" from "${this.oldVersion}" to "${this.newVersion}"`)
 
     // Update the content with the new version
-    objectPath.set(pomObject, this.versionPath, this.newVersion)
-    
-    const builder = new XMLBuilder({
-        format: true
-    });
-    const xmlContent = builder.build(pomObject);
+    objectPath.set(xmlObject, this.versionPath, this.newVersion)
 
-    console.log(xmlContent);
+    const builder = new XMLBuilder({
+      format: true
+    });
     // Update the file
     this.update(
-        xmlContent
+      builder.build(xmlObject)
     )
   }
 
