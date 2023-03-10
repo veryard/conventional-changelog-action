@@ -32,11 +32,7 @@ module.exports = class Pom extends BaseVersioning {
     }
 
     // pomObject.project.version = "1.0.0"
-    if (pomObject.project && pomObject.project.version) {
-        this.oldVersion = pomObject.project.version
-    } else {
-        this.oldVersion = null
-    }
+    this.oldVersion = objectPath.get(jsonContent, this.versionPath, null)
 
     // Get the new version
     this.newVersion = await bumpVersion(
@@ -54,6 +50,7 @@ module.exports = class Pom extends BaseVersioning {
     });
     const xmlContent = builder.build(pomObject);
 
+    console.log(xmlContent);
     // Update the file
     this.update(
         xmlContent
