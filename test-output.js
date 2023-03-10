@@ -45,6 +45,7 @@ FILES.split(',').map((file, index) => {
     case 'xml':
       const parser = new XMLParser();
       parsedContent = parser.parse(fileContent);
+      console.log(`Parsing XML file "${file}"`, parsedContent)
       break
 
     default:
